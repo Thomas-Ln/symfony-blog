@@ -1,0 +1,95 @@
+/* General ------------------------ */
+
+/*Hover.css*/
+/* Bubble Float Left */
+.hvr-bubble-float-left {
+  display: inline-block;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+  transition-duration: 0.3s;
+  transition-property: transform;
+}
+
+.hvr-bubble-float-left:before {
+  position: absolute;
+  z-index: -1;
+  /*content: '';*/
+  top: calc(50% - 10px);
+  left: 0;
+  border-style: solid;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent white transparent transparent;
+  transition-duration: 0.3s;
+  transition-property: transform, border-color;
+}
+
+.hvr-bubble-float-left:hover,
+.hvr-bubble-float-left:focus,
+.hvr-bubble-float-left:active {
+  transform: translateX(10px);
+}
+
+.hvr-bubble-float-left:hover:before,
+.hvr-bubble-float-left:focus:before,
+.hvr-bubble-float-left:active:before {
+  transform: translateX(-10px);
+  /*border-color: transparent lightgrey transparent transparent;*/
+  /*transition: border-color;*/
+}
+
+*::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+body {
+  line-height: 1.2 !important;
+
+}
+
+time:before { content: "(";  }
+time:after  { content: ")";  }
+
+/*-------------------------------------------------------*/
+
+/* articleList ------------------------ */
+
+.link-unstyled,
+.link-unstyled:link,
+.link-unstyled:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.card-title {
+  font-size: 16px;
+  font-family: roboto condensed, sans-serif;
+  font-weight: bold;
+}
+
+.card-subtitle {
+  font-size: 12px;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.card-subtitle b::after {
+  content: ' ';
+  white-space: pre-wrap;
+  color: lightgrey;
+}
+
+.badge-comment {
+  line-height: 0.3rem !important;
+}
+
+/* articleView ------------------------ */
+
+#articleView {
+  height: fit-content;
+  /*min-height: 95vh;*/
+  position: sticky;
+  top: 16px;
+}

@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-  <ul>
-    <p>Will contain :</p>
-    <li>articleList</li>
-    <li>articleView</li>
-  </ul>
+  <main class="container-fluid px-0 d-md-flex">
+    {% include '/article/articleList.html.twig' %}
+    {% include '/article/articleView.html.twig' %}
+  </main>
 {% endblock %}

@@ -1,0 +1,17 @@
+<section id="articleList" class="col-lg-3 col-md-4 p-2">
+  {% for article in articles %}
+    <article class="card shadow-sm border-0 my-2 bg-primary rounded">
+      <a href="/article/{{ article.id }}" class="card-body link-unstyled bg-white border-white hvr-bubble-float-left">
+        <span class="card-title mx-0 row">{{ article.title }}</span>
+        <span class="card-subtitle d-block row mx-0 text-muted">
+          <span class="text-primary">{{ article.author.name }}</span>
+          <time>{{ article.createdAt|date("d/m/Y h:m") }}</time>
+          <span class="ml-3 d-flex float-right" title="comments">
+            {{ article.comments|length }}
+            <span class="badge badge-light border ml-1 badge-comment">...</span>
+          </span>
+        </span>
+      </a>
+    </article>
+  {% endfor %}
+</section>
