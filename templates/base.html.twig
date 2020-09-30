@@ -5,11 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <title>Blog</title>
+  <title>{% block title %} Blog {% endblock %}</title>
   <link rel="icon" href="">
   {% block stylesheets %}
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="{{asset('app.css')}}">
     {# Font #}
+    <link rel="stylesheet" href="{{asset('all.min.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <!-- Bootstrap Css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -17,8 +18,29 @@
 </head>
 
 <body class="bg-light">
-  {% block body %}{% endblock %}
+    <header class="bg-primary sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand hvr-skew-forward" href="/">Blog</a>
+        <ul class="navbar-nav">
+        {% if not app.user %}
+          <li class="nav-item">
+            <a href="{{ path('security_login') }}" class="nav-link hvr-underline-from-center">Login</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="{{ path('security_logout') }}" class="nav-link hvr-underline-from-center">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ path('article_create') }}" class="nav-link hvr-underline-from-center">+Article</a>
+          </li>
+        {% endif %}
+        </ul>
+      </nav>
+    </header>
+  {% block body %} {% endblock %}
   {% block javascripts %}
+    {# Font Awesome #}
+    <script type="text/javascript" src="{{asset('all.min.js')}}"></script>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

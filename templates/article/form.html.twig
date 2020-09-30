@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  {% if isNewArticle %} Create Article {% else %} Edit Article {% endif %}
+{% endblock %}
+{% block body %}
+  <main class="offset-lg-3 col-lg-6 mt-3">
+    <section id="articleView" class="card bg-white shadow-sm p-lg-5 p-3">
+      {% if isNewArticle or article.author == app.user %}
+        {{ form(form) }}
+      {% else %}
+        <p class="h1">This article don't belong to you 🙊</p>
+        <a class="h2" href="{{ path('article', {'id': article.id}) }}">return ↩️</a>
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

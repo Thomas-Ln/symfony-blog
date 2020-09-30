@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -19,6 +20,7 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $content;
 
@@ -61,12 +63,12 @@ class Comment
         return $this->author;
     }
 
-    // public function setAuthor(?User $author): self
-    // {
-    //     $this->author = $author;
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -85,10 +87,10 @@ class Comment
         return $this->article;
     }
 
-    // public function setArticle(?Article $article): self
-    // {
-    //     $this->article = $article;
+    public function setArticle(?Article $article): self
+    {
+        $this->article = $article;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 }

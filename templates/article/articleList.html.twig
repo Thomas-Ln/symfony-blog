@@ -7,8 +7,17 @@
           <span class="text-primary">{{ article.author.name }}</span>
           <time>{{ article.createdAt|date("d/m/Y h:m") }}</time>
           <span class="ml-3 d-flex float-right" title="comments">
-            {{ article.comments|length }}
-            <span class="badge badge-light border ml-1 badge-comment">...</span>
+            {% set comment_length = article.comments|length %}
+            {{ comment_length }}
+            {% if comment_length >= 20 %}
+              <span class="badge badge-warning ml-1 badge-comment border-white">
+            {% elseif comment_length >= 100 %}
+              <span class="badge badge-danger ml-1 badge-comment border-white">
+            {% else %}
+              <span class="badge badge-light ml-1 badge-comment border">
+            {% endif %}
+              ...
+            </span>
           </span>
         </span>
       </a>

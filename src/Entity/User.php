@@ -5,14 +5,19 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email")
+ * @UniqueEntity("name")
  */
 class User implements UserInterface
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -22,6 +27,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email
      */
     private $email;
 
@@ -33,11 +39,27 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *  min=10,
+     *  max=255,
+     *  minMessage="Password must contain more than 10 characters !",
+     *  maxMessage="Password must be less than 255 characters !"
+     * )
+     * @Assert\Regex("/\d/", message="Password must contain a number !")
+     * @Assert\Regex("/[a-z]/", message="Password must contain a lower case character !")
+     * @Assert\Regex("/[A-Z]/", message="Password must contain an upper case character !")
+     * @Assert\Regex("/[$&+,:;=?@#|'<>.^*()%!-]/", message="Password msut contain a special character ! (e.g: +$&#)")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Length(
+     *  min=3,
+     *  max=30,
+     *  minMessage="Name must contain more than 3 characters !",
+     *  maxMessage="Name must be less than 30 characters !"
+     * )
      */
     private $name;
 
@@ -151,7 +173,7 @@ class User implements UserInterface
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->comments->contains($comment)) {
+        if (!$this->comments->contain($comment)) {
             $this->comments[] = $comment;
             $comment->setAuthor($this);
         }
@@ -161,7 +183,7 @@ class User implements UserInterface
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comments->contains($comment)) {
+        if ($this->comments->contain($comment)) {
             $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {

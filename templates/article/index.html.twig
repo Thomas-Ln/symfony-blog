@@ -1,13 +1,51 @@
 {% extends 'base.html.twig' %}
+{% block title %} Article {% endblock %}
 {% block body %}
-  <main class="offset-lg-3 col-lg-6 mt-3">
-    <section id="articleView" class="card bg-white shadow-sm">
-      <article class="card-body">
-        <p>{{ article.content }}</p>
-        <span>{{ article.comments|length }} Commentaires</span>
+  <main class="offset-lg-3 col-lg-6 my-3">
+    {# flassh message #}
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endfor %}
+
+    <section id="articleView" class="card bg-white shadow-sm border-rounded">
+      {% if app.user == article.author %}
+        <header class="bg-primary">
+          <a
+            href="{{ path('article_edit', {id: article.id}) }}"
+            class="btn btn-primary btn-block font-weight-bold hvr-shrink">
+            Edit <i class="fas fa-pen ml-1"></i>
+          </a>
+        </header>
+      {% endif %}
+      <article class="card-body p-5">
+        {# Content #}
+        <div class="content-wrapper">
+          <p>{{ article.content|nl2br }}</p>
+        </div>
+        {# Comment length #}
+        <span class="d-inline-block my-2 font-weight-bold text-muted">
+          {{ article.comments|length }}
+          Commentaires
+        </span>
+        {# Comments #}
         {% for comment in article.comments %}
-        <p>{{ comment.content }}</p>
+          <div class="comment-wrapper w-100 p-2">
+            <span class="comment-infos">
+              <a href="#" class="text-primary">{{ comment.author.name }}</a>
+              <time class="text-muted">{{ comment.createdAt|date("d/m/Y h:m") }}</time>
+            </span>
+            <p class="m-0 p-2">{{ comment.content }}</p>
+          </div>
         {% endfor %}
+
+        {% if app.user %}
+          {{ form(form) }}
+        {% endif %}
       </article>
     </section>
   </main>
