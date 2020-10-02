@@ -39,8 +39,55 @@
     </header>
   {% block body %} {% endblock %}
   {% block javascripts %}
+    <script>
+    // Ajax fetch article
+    // ------------------
+      let articleView   = document.querySelector('#articleView');
+      let articleList   = document.querySelectorAll('#articleList a');
+      var activeElement = null;
+
+      // style current article in articleList
+      function activeLink(element) {
+        (activeElement) ? activeElement.classList.remove('active') : '';
+        activeElement = element;
+        element.classList.add('active');
+      }
+
+      // load article in articleView
+      async function loadArticle(event, url) {
+        let req = await fetch(url, {
+          headers: {
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        });
+        let response = await req.text();
+        articleView.innerHTML = response;
+      }
+
+      // on articleList link click
+      articleList.forEach(element => {
+        element.addEventListener('click', function(event) {
+          event.preventDefault();
+          loadArticle(event, element.href);
+          activeLink(element);
+          history.pushState(null, null, element.href);
+        })
+      });
+
+      // on back / forward history
+      window.onpopstate = function(event) {
+        if (location.href == (location.origin + '/')) {
+          articleView.innerHTML = "Will load home in a next feature.";
+        } else {
+          loadArticle(event, location.href);
+          activeLink(document.querySelector('[href="'+location.pathname+'"]'));
+        }
+      }
+    </script>
+
     {# Font Awesome #}
     <script type="text/javascript" src="{{asset('all.min.js')}}"></script>
+
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

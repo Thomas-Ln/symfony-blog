@@ -1,0 +1,34 @@
+{% if app.user == article.author %}
+  <header class="bg-primary">
+    <a
+      href="{{ path('article_edit', {id: article.id}) }}"
+      class="btn btn-primary btn-block font-weight-bold hvr-shrink">
+      Edit <i class="fas fa-pen ml-1"></i>
+    </a>
+  </header>
+{% endif %}
+<article class="card-body p-5">
+  {# Content #}
+  <div class="content-wrapper">
+    <p>{{ article.content|nl2br }}</p>
+  </div>
+  {# Comment length #}
+  <span class="d-inline-block my-2 font-weight-bold text-muted">
+    {{ article.comments|length }}
+    Commentaires
+  </span>
+  {# Comments #}
+  {% for comment in article.comments %}
+    <div class="comment-wrapper w-100 p-2">
+      <span class="comment-infos">
+        <a href="#" class="text-primary">{{ comment.author.name }}</a>
+        <time class="text-muted">{{ comment.createdAt|date("d/m/Y h:m") }}</time>
+      </span>
+      <p class="m-0 p-2">{{ comment.content }}</p>
+    </div>
+  {% endfor %}
+
+  {% if app.user %}
+    {{ form(form) }}
+  {% endif %}
+</article>

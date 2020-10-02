@@ -84,7 +84,8 @@
 
 .hvr-bubble-float-left:hover,
 .hvr-bubble-float-left:focus,
-.hvr-bubble-float-left:active {
+.hvr-bubble-float-left:active,
+a.active {
   transform: translateX(10px);
 }
 

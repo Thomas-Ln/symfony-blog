@@ -20,6 +20,7 @@ class ArticleController extends AbstractController
      */
     public function index(Article $article, Request $request, ObjectManager $manager, Security $security)
     {
+
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
 
@@ -36,7 +37,13 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('article', ['id' => $article->getId()]);
         }
 
-        return $this->render('article/index.html.twig', [
+        if ($request->isXmlHttpRequest()) {
+            $view = 'article/article.html.twig';
+        } else {
+            $view = 'article/index.html.twig';
+        }
+
+        return $this->render($view, [
             'controller_name' => 'ArticleController',
             'article' => $article,
             'form' => $form->createView()
