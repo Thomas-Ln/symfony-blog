@@ -15,9 +15,9 @@ symfony composer install
  with all privileges on "blog"**
 ```
 sudo mysql
-mysql>CREATE USER 'symfony'@'localhost' IDENTIFIED BY 'password';
-mysql>GRANT ALL PRIVILEGES ON blog.* TO 'symfony'@'localhost';
-mysql>FLUSH PRIVILEGES;
+CREATE USER 'symfony'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON blog.* TO 'symfony'@'localhost';
+FLUSH PRIVILEGES;
 ```  
 
 **- create database, tables & fake data**
